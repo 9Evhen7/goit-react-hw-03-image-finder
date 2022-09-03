@@ -10,6 +10,11 @@ export class Modal extends Component {
     this.closeModal = onCloseModal;
   }
 
+  static propTypes = {
+    onCloseModal: PropTypes.func.isRequired,
+    modalPhoto: PropTypes.string.isRequired,
+  };
+
   onEscape = event => {
     const { closeModal } = this;
     if (event.key === 'Escape') {
@@ -25,21 +30,18 @@ export class Modal extends Component {
   };
 
   componentDidMount() {
-    const { onEscape, onOverLayClick } = this;
+    const { onEscape } = this;
     window.addEventListener('keydown', onEscape);
-    window.addEventListener('click', onOverLayClick);
   }
 
   componentWillUnmount() {
-    const { onEscape, onOverLayClick } = this;
+    const { onEscape } = this;
     window.removeEventListener('keydown', onEscape);
-    window.removeEventListener('click', onOverLayClick);
   }
 
   render() {
-    // const { modalPhoto } = this.props;
     return (
-      <Overlay id="overlay">
+      <Overlay id="overlay" onClick={this.onOverLayClick}>
         <Modalka>
           <img src={this.photo} alt="modalPhoto" />
         </Modalka>
@@ -47,8 +49,3 @@ export class Modal extends Component {
     );
   }
 }
-
-Modal.propTypes = {
-  onCloseModal: PropTypes.func,
-  modalPhoto: PropTypes.string,
-};
